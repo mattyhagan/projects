@@ -7,7 +7,7 @@ ICS 3U1 Performance Task
 #imports
 from tkinter import *
 from tkinter import messagebox
-from PIL import Image, ImageTk
+#from PIL import Image, ImageTk
 
 
 
@@ -125,6 +125,7 @@ def confirmForm():
         register()
         messagebox.showinfo('Success', f'You have successfully registered {camperNameVar.get()}')
         clearForm()
+        #print(weeksChild)
 
 def register():
     names.append(camperNameVar.get())
@@ -145,8 +146,8 @@ def register():
     parent2email.append(emailVar2.get())
     parent2relationship.append(relationshipVar2.get())
     weekListChild = weekSelection([weekVar1.get(), weekVar2.get(), weekVar3.get(), weekVar4.get(), weekVar5.get(), weekVar6.get(), weekVar7.get(), weekVar8.get(), weekVar9.get()])
-    weeks.append(weekListChild)
-    weekListVar.set(weeks)
+    weeksChild.append(weekListChild)
+    
 
 def clearForm():
     camperNameVar.set('')
@@ -172,7 +173,18 @@ def clearForm():
     weekVar8.set('')
     weekVar9.set('')
     additionalInfoEntry.delete('1.0', END)
+
+def showChildren(event):
+    pass
+
+def showWeeks(event):
+    index = nameBox.curselection()
+    index2 = 0
+    for i in index:
+        index2 += i
     
+    print(index2)
+
 
 #frames
 root = Tk()
@@ -185,19 +197,20 @@ camperInfoFrame = LabelFrame(root, text = 'Camper Info')
 parentFrame = LabelFrame(root, text = 'Parent/Guardian 1')
 parentFrame2 = LabelFrame(root, text = 'Parent/Guardian 2')
 weekFrame = LabelFrame(root, text = 'Weeks of Camp(5 max)')
+listBoxFrame = Frame(root)
 registerFrame = Frame(root)
 
 #widgets
-campLogoImg = Image.open('campLogo.jpg').resize((216, 59))
-campLogoPhoto = ImageTk.PhotoImage(campLogoImg)
-campLogoLabel = Label(introFrame, image = campLogoPhoto)
+#campLogoImg = Image.open('campLogo.jpg').resize((216, 59))
+#campLogoPhoto = ImageTk.PhotoImage(campLogoImg)
+#campLogoLabel = Label(introFrame, image = campLogoPhoto)
 
-ontarioLogoImg = Image.open('ontarioLogo.png').resize((216, 85))
-ontarioLogoPhoto = ImageTk.PhotoImage(ontarioLogoImg)
-ontarioLogoLabel = Label(introFrame, image = ontarioLogoPhoto)
+#ontarioLogoImg = Image.open('ontarioLogo.png').resize((216, 85))
+#ontarioLogoPhoto = ImageTk.PhotoImage(ontarioLogoImg)
+#ontarioLogoLabel = Label(introFrame, image = ontarioLogoPhoto)
 
 titleLabel = Label(introFrame, text = 'SUMMER DAY CAMP 2019 REGISTRATION', font=('Arial 12 bold'))
-descriptionLabel = Label(introFrame, font = ('Arial', 8), text = 'Day camp registration forms can be dropped off at the Kiwanis BGC location from Monday, March 11 – Friday, March 22; all \nforms received during this period will be processed after March 23, 2019\n\n\n- Forms will be accepted between the hours of 9:00 am – 9:00 pm Monday – Friday and 9:00 am – 4:00 pm on Saturday\n\n- Families submitting forms before March 22 will receive confirmation by April 12\n\n- Forms will not be accepted between March 25 - 29\n\n- Starting Monday, April 1, registration for the remaining spots will be available on a first come, first serve basis\n\n- Must be a Boys and Girls Club member to register, must be at least 5 years old by the time they attend camp \n\n- Payment will be accepted by pre-authorized payments, debit, credit or cash\n\n- Communication regarding camp acceptance will be made through email or phone')
+descriptionLabel = Label(introFrame, font = ('Arial', 8), text = 'Day camp registration forms can be dropped off at the Kiwanis BGC location from June 11 – June 22; all \nforms received during this period will be processed after June 23, 2019\n\n\n- Forms will be accepted between the hours of 9:00 am – 9:00 pm Monday – Friday and 9:00 am – 4:00 pm on Saturday\n\n- Forms will not be accepted between June 25 - 29\n\n- Starting July 1, registration for the remaining spots will be available on a first come, first serve basis\n\n- Payment will be accepted by pre-authorized payments, debit, credit or cash\n\n- Communication regarding camp acceptance will be made through email or phone')
 noteLabel = Label(introFrame, font = ('Arial', 8, 'italic'), text = '*note: If there is no second guardian, select \'n/a\' under \'Relationship to Camper\'')
 
 
@@ -227,7 +240,6 @@ genderOtherEntry = Entry(camperInfoFrame, state = 'disabled', textvariable = gen
 
 additionalInfoLabel = Label(camperInfoFrame, text = 'Additional info (allergies, restricted activities, medications, behavioural, etc.):')
 additionalInfoEntry = Text(camperInfoFrame, height = 5, font=('Arial'), wrap = 'word')
-
 
 parentNameVar = StringVar()
 parentNameLabel = Label(parentFrame, text = 'Full Name:')
@@ -283,11 +295,13 @@ weekCheck9 = Checkbutton(weekFrame, text = 'Week 9', variable = weekVar9, onvalu
 
 
 nameListVar = StringVar(value = names)
-nameBox = Listbox(registerFrame, height = 3, listvariable = nameListVar)
+nameBox = Listbox(listBoxFrame, height = 3, listvariable = nameListVar)
+nameBox.bind('<Double-Button-1>', showWeeks)
 
-weekBox = Listbox(registerFrame, height = 3)
+weekBox = Listbox(listBoxFrame, height = 3)
 for item in weeks:
     weekBox.insert(END, item)
+weekBox.bind('<Double-Button-1>', showChildren)
 
 registerButton = Button(registerFrame, text = 'Register', command = formCheck)
 
@@ -298,7 +312,8 @@ camperInfoFrame.grid(row = 3, column = 1, padx = 10, pady = 10, sticky = W)
 parentFrame.grid(row = 1, column = 2, padx = 10, pady = 10)
 parentFrame2.grid(row = 2, column = 2, padx = 10, pady = 10)
 weekFrame.grid(row = 3, column = 2, padx = 10, pady = 10, sticky = W+N+S+E)
-registerFrame.grid(row = 4, column = 1, columnspan = 2, padx = 10, pady = 10, sticky = W+E)
+registerFrame.grid(row = 4, column = 2, padx = 10, pady = 10, sticky = W+E)
+listBoxFrame.grid(row = 4, column = 1, padx = 10, pady = 10, sticky = W+E)
 
 
 #campLogoLabel.grid(row = 1, column = 1)
@@ -363,8 +378,8 @@ weekCheck8.grid(row = 3, column = 2, padx = 30, pady = 10)
 weekCheck9.grid(row = 4, column = 2, padx = 30, pady = 10)
 
 
-nameBox.grid(row = 1, column = 1, sticky = W)
-weekBox.grid(row = 2, column = 1, sticky = W)
-registerButton.grid(row = 1, column = 2, columnspan = 2, rowspan = 2, padx = 600, ipadx = 40, ipady = 7, sticky = E)
+nameBox.grid(row = 1, column = 1)
+weekBox.grid(row = 2, column = 1)
+registerButton.grid(ipadx = 66, ipady = 7)
 
 root.mainloop
