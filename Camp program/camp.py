@@ -89,7 +89,7 @@ def weekSelection(weeks):
     weekList = []
     for week in weeks:
         if week != '':
-            weekList.append(f'Week {week}')
+            weekList.append(f'week {week}')
     return weekList
 
 def formCheck():
@@ -177,14 +177,34 @@ def clearForm():
 def showChildren(event):
     pass
 
-def showWeeks(event):
-    index = nameBox.curselection()
-    index2 = 0
-    for i in index:
-        index2 += i
-    
-    print(index2)
 
+
+def showChildInfo(event):
+    tupleIndex = nameBox.curselection()
+    index = tupleIndex[0]
+
+    if genders[index] == 'M':
+        pronouns = ['him', 'He is', 'his']
+    elif genders[index] == 'F':
+        pronouns = ['her', 'She is', 'her']
+    else:
+        pronouns = ['them', 'They are', 'their']
+
+
+    weekString = f'{names[index]} is registered for '
+
+    
+    for week in weeksChild[index]:
+        if week == weeksChild[index][-1]:
+            weekString += f'{week}.'
+        elif week == weeksChild[index][-2]:
+            weekString += f'{week}, and '
+        else:
+            weekString += f'{week}, '
+          
+    messagebox.showinfo(f'Information for {names[index]}', f'{weekString} Additional info for {pronouns[0]} is:\n{info[index]}')
+    
+    
 
 #frames
 root = Tk()
@@ -296,7 +316,7 @@ weekCheck9 = Checkbutton(weekFrame, text = 'Week 9', variable = weekVar9, onvalu
 
 nameListVar = StringVar(value = names)
 nameBox = Listbox(listBoxFrame, height = 3, listvariable = nameListVar)
-nameBox.bind('<Double-Button-1>', showWeeks)
+nameBox.bind('<Double-Button-1>', showChildInfo)
 
 weekBox = Listbox(listBoxFrame, height = 3)
 for item in weeks:
