@@ -174,37 +174,85 @@ def clearForm():
     weekVar9.set('')
     additionalInfoEntry.delete('1.0', END)
 
-def showChildren(event):
-    pass
+def showChildren(*event):
+    tupleIndex = weekBox.curselection()
+    index = tupleIndex[0]
+    print(index)
+
+    weekInfoString = f''
+    for list in weeksChild:
+        if f'week {index+1}' not in list:
+            children = False
+        else:
+            weekInfoString += names[weeksChild.index(list)]
+
+    if children == False:
+        messagebox.showinfo('Week view', f'There is no one registered in week {index+1}.')
+    else:
+        string = f''
+        #for list in weeksChild:
+            
+            #if weeksChild[names.index(child)]
+
+    
 
 
+def showChildInfo(*event):
+    try:
+        tupleIndex = nameBox.curselection()
+        index = tupleIndex[0]
+    except:
+        messagebox.showerror('Error', 'Please select a child name')
+    else:
+        if genders[index] == 'M':
+            pronouns = ['him', 'He is', 'his']
+        elif genders[index] == 'F':
+            pronouns = ['her', 'She is', 'her']
+        else:
+            pronouns = ['them', 'They are', 'their']
+            
+        weekString = f'{names[index]} is registered for '
 
-def showChildInfo(event):
+        for week in weeksChild[index]:
+            if week == weeksChild[index][-1]:
+                weekString += f'{week}.'
+            elif week == weeksChild[index][-2]:
+                weekString += f'{week}, and '
+            else:
+                weekString += f'{week}, '
+        if info[index] != '':
+            messagebox.showinfo(f'Information for {names[index]}', f'{weekString} Additional info for {pronouns[0]} is:\n{info[index]}')
+        else:
+            messagebox.showinfo(f'Information for {names[index]}', f'{weekString}')
+
+        
+def deleteChild():
+    
     tupleIndex = nameBox.curselection()
+    messagebox.showerror('Error', 'Please select a camper name in the list box')
+    
     index = tupleIndex[0]
 
-    if genders[index] == 'M':
-        pronouns = ['him', 'He is', 'his']
-    elif genders[index] == 'F':
-        pronouns = ['her', 'She is', 'her']
-    else:
-        pronouns = ['them', 'They are', 'their']
+    childName = names[index]
+
+    names.pop(index)
+    birthdays.pop(index)
+    genders.pop(index)
+    info.pop(index)
+    parent1names.pop(index)
+    parent1phone.pop(index)
+    parent1email.pop(index)
+    parent1relationship.pop(index)
+    parent2names.pop(index)
+    parent2phone.pop(index)
+    parent2email.pop(index)
+    parent2relationship.pop(index)
+    weeksChild.pop(index)
+
+    nameListVar.set(names)
+    messagebox.showinfo('Camper deleted', f'{childName} has been deleted from the camper registry.')
 
 
-    weekString = f'{names[index]} is registered for '
-
-    
-    for week in weeksChild[index]:
-        if week == weeksChild[index][-1]:
-            weekString += f'{week}.'
-        elif week == weeksChild[index][-2]:
-            weekString += f'{week}, and '
-        else:
-            weekString += f'{week}, '
-          
-    messagebox.showinfo(f'Information for {names[index]}', f'{weekString} Additional info for {pronouns[0]} is:\n{info[index]}')
-    
-    
 
 #frames
 root = Tk()
@@ -318,6 +366,10 @@ nameListVar = StringVar(value = names)
 nameBox = Listbox(listBoxFrame, height = 3, listvariable = nameListVar)
 nameBox.bind('<Double-Button-1>', showChildInfo)
 
+viewButton = Button(listBoxFrame, text = 'View camper', command = showChildInfo)
+deleteButton = Button(listBoxFrame, text = 'Delete camper', command = deleteChild)
+
+
 weekBox = Listbox(listBoxFrame, height = 3)
 for item in weeks:
     weekBox.insert(END, item)
@@ -400,6 +452,10 @@ weekCheck9.grid(row = 4, column = 2, padx = 30, pady = 10)
 
 nameBox.grid(row = 1, column = 1)
 weekBox.grid(row = 2, column = 1)
+
+viewButton.grid(row = 1, column = 2, rowspan = 2)
+deleteButton.grid(row = 1, column = 3, rowspan = 2)
+
 registerButton.grid(ipadx = 66, ipady = 7)
 
 root.mainloop
