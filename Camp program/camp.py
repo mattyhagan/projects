@@ -177,25 +177,37 @@ def clearForm():
 def showChildren(*event):
     tupleIndex = weekBox.curselection()
     index = tupleIndex[0]
-    print(index)
 
-    weekInfoString = f''
-    for list in weeksChild:
-        if f'week {index+1}' not in list:
-            children = False
+    childrenInWeek = []
+    if weeksChild != []:
+        for list in weeksChild:
+            if f'week {index+1}' in list:
+                childrenInWeek.append(names[weeksChild.index(list)])
+        if childrenInWeek == []:
+            messagebox.showinfo('Week view', f'There is no one registered in week {index+1}.')
         else:
-            weekInfoString += names[weeksChild.index(list)]
-
-    if children == False:
-        messagebox.showinfo('Week view', f'There is no one registered in week {index+1}.')
-    else:
-        string = f''
-        #for list in weeksChild:
+            weekInfoString = f''
+            nameSum = 0
+            for name in childrenInWeek:
+                
+                if name == childrenInWeek[-1]:
+                    weekInfoString += f'{name} '
+                elif name == childrenInWeek[-2]:
+                    weekInfoString += f'{name}, and '
+                else:
+                    weekInfoString += f'{name}, '
+                nameSum +=1
             
-            #if weeksChild[names.index(child)]
+            
+            if nameSum > 1:
+                weekInfoString += 'are'
+            else:
+                weekInfoString += 'is'
 
-    
-
+            messagebox.showinfo('Week view', f'{weekInfoString} registered in week {index+1}.')
+            
+    else:
+        messagebox.showinfo('Week view', f'There is no one registered in week {index+1}.')
 
 def showChildInfo(*event):
     try:
@@ -227,30 +239,32 @@ def showChildInfo(*event):
 
         
 def deleteChild():
-    
-    tupleIndex = nameBox.curselection()
-    messagebox.showerror('Error', 'Please select a camper name in the list box')
-    
-    index = tupleIndex[0]
 
-    childName = names[index]
+    try:
+        tupleIndex = nameBox.curselection()
+    except:
+        messagebox.showerror('Error', 'Please select a camper name in the list box')
+    else:
+        index = tupleIndex[0]
 
-    names.pop(index)
-    birthdays.pop(index)
-    genders.pop(index)
-    info.pop(index)
-    parent1names.pop(index)
-    parent1phone.pop(index)
-    parent1email.pop(index)
-    parent1relationship.pop(index)
-    parent2names.pop(index)
-    parent2phone.pop(index)
-    parent2email.pop(index)
-    parent2relationship.pop(index)
-    weeksChild.pop(index)
+        childName = names[index]
 
-    nameListVar.set(names)
-    messagebox.showinfo('Camper deleted', f'{childName} has been deleted from the camper registry.')
+        names.pop(index)
+        birthdays.pop(index)
+        genders.pop(index)
+        info.pop(index)
+        parent1names.pop(index)
+        parent1phone.pop(index)
+        parent1email.pop(index)
+        parent1relationship.pop(index)
+        parent2names.pop(index)
+        parent2phone.pop(index)
+        parent2email.pop(index)
+        parent2relationship.pop(index)
+        weeksChild.pop(index)
+
+        nameListVar.set(names)
+        messagebox.showinfo('Camper deleted', f'{childName} has been deleted from the camper registry.')
 
 
 
