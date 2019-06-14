@@ -217,11 +217,11 @@ def showChildInfo(*event):
         messagebox.showerror('Error', 'Please select a child name')
     else:
         if genders[index] == 'M':
-            pronouns = ['him', 'He is', 'his']
+            pronouns = ['him', 'His']
         elif genders[index] == 'F':
-            pronouns = ['her', 'She is', 'her']
+            pronouns = ['her', 'Her']
         else:
-            pronouns = ['them', 'They are', 'their']
+            pronouns = ['them', 'Their']
             
         weekString = f'{names[index]} is registered for '
 
@@ -233,11 +233,40 @@ def showChildInfo(*event):
             else:
                 weekString += f'{week}, '
         if info[index] != '':
-            messagebox.showinfo(f'Information for {names[index]}', f'{weekString} Additional info for {pronouns[0]} is:\n{info[index]}')
+            infoString = f'Additional info for {pronouns[0]} is:\n{info[index]}.\n{pronouns[1]} date of birth is {getBirthdayString(index)}'
         else:
-            messagebox.showinfo(f'Information for {names[index]}', f'{weekString}')
-
+            infoString = ''
+        if parent1relationship[index] == 'Mother':
+            parent1relationshipString = 'mother'
+        elif parent1relationship[index] == 'Father':
+            parent1relationshipString = 'father'
+        else:
+            parent1relationshipString == 'guardian'
+        if parent2relationship[index] == 'n/a':
+            parent2String = ''
         
+        ##
+        parentString = f'{pronouns[1]} {parent1relationshipString}\'s name is {parent1names[index]}, their phone number is {parent1phone[index]} and their email is {parent1email[index]}.'
+        messagebox.showinfo(f'{names[index]} Info', f'{weekString} {infoString}\n{parentString}')
+
+def getBirthdayString(index):
+    birthdays[index]
+    months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+    days = []
+    for number in range(1, 32):
+        if number in [1, 21, 31]:
+            days.append(f'{number}st')
+        elif number in [2, 22]:
+            days.append(f'{number}nd')
+        else:
+            days.append(f'{number}th')
+    
+    monthIndex = birthdays[index][0] - 1
+    dayIndex = birthdays[index][1] - 1
+    
+    birthdayString = f'{months[monthIndex]} {days[dayIndex]} {birthdays[index][2]}'
+    return birthdayString
+    
 def deleteChild():
 
     try:
