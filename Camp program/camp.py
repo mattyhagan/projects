@@ -7,9 +7,6 @@ ICS 3U1 Performance Task
 #imports
 from tkinter import *
 from tkinter import messagebox
-#from PIL import Image, ImageTk
-
-
 
 #lists
 global names, birthdays, genders, info, parent1names, parent1phone, parent1email, parent1relationship, parent2names, parent2phone, parent2email, parent2relationship, weeks
@@ -26,15 +23,14 @@ parent2phone = []
 parent2email = []
 parent2relationship = []
 weeksChild = []
-weeks = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8', 'Week 9']
 
+weeks = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8', 'Week 9']
 yearList = [2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]
 dayList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
 dayListFeb = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
 dayListFebLeapYear = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
 dayListThirtyDays = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
 monthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
 relationshipList = ['Mother', 'Father', 'Other']
 relationshipList2 = ['Mother', 'Father', 'Other', 'n/a']
 
@@ -246,7 +242,6 @@ def showChildInfo(*event):
         else:
             parent2String = ''
 
-        
         parentString = f'{pronouns[1]} {parent1relationshipString}\'s name is {parent1names[index]}, their phone number is {parent1phone[index]} and their email is {parent1email[index]}.'
         messagebox.showinfo(f'{names[index]} Info', f'{weekString} {infoString}\n{parentString}\n{parent2String}')
 
@@ -261,7 +256,6 @@ def getParentRelationship(index, parent):
         return 'father'
     else:
         return 'guardian'
-
 
 def getBirthdayString(index):
     birthdays[index]
@@ -289,8 +283,6 @@ def deleteChild():
     except:
         messagebox.showerror('Error', 'Please select a camper name in the list box')
     else:
-        
-
         childName = names[index]
 
         names.pop(index)
@@ -327,14 +319,6 @@ listBoxFrame = Frame(root)
 registerFrame = Frame(root)
 
 #widgets
-#campLogoImg = Image.open('campLogo.jpg').resize((216, 59))
-#campLogoPhoto = ImageTk.PhotoImage(campLogoImg)
-#campLogoLabel = Label(introFrame, image = campLogoPhoto)
-
-#ontarioLogoImg = Image.open('ontarioLogo.png').resize((216, 85))
-#ontarioLogoPhoto = ImageTk.PhotoImage(ontarioLogoImg)
-#ontarioLogoLabel = Label(introFrame, image = ontarioLogoPhoto)
-
 titleLabel = Label(introFrame, text = 'SUMMER DAY CAMP 2019 REGISTRATION', font=('Arial 12 bold'))
 descriptionLabel = Label(introFrame, font = ('Arial', 8), text = 'Day camp registration forms can be dropped off at the Kiwanis BGC location from June 11 – June 22; all \nforms received during this period will be processed after June 23, 2019\n\n\n- Forms will be accepted between the hours of 9:00 am – 9:00 pm Monday – Friday and 9:00 am – 4:00 pm on Saturday\n\n- Forms will not be accepted between June 25 - 29\n\n- Starting July 1, registration for the remaining spots will be available on a first come, first serve basis\n\n- Payment will be accepted by pre-authorized payments, debit, credit or cash\n\n- Communication regarding camp acceptance will be made through email or phone')
 noteLabel = Label(introFrame, font = ('Arial', 8, 'italic'), text = '*note: If there is no second guardian, select \'n/a\' under \'Relationship to Camper\'')
