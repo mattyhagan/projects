@@ -125,7 +125,6 @@ def confirmForm():
         register()
         messagebox.showinfo('Success', f'You have successfully registered {camperNameVar.get()}')
         clearForm()
-        #print(weeksChild)
 
 def register():
     names.append(camperNameVar.get())
@@ -146,8 +145,7 @@ def register():
     parent2email.append(emailVar2.get())
     parent2relationship.append(relationshipVar2.get())
     weekListChild = weekSelection([weekVar1.get(), weekVar2.get(), weekVar3.get(), weekVar4.get(), weekVar5.get(), weekVar6.get(), weekVar7.get(), weekVar8.get(), weekVar9.get()])
-    weeksChild.append(weekListChild)
-    
+    weeksChild.append(weekListChild)   
 
 def clearForm():
     camperNameVar.set('')
@@ -236,18 +234,34 @@ def showChildInfo(*event):
             infoString = f'Additional info for {pronouns[0]} is:\n{info[index]}.\n{pronouns[1]} date of birth is {getBirthdayString(index)}'
         else:
             infoString = ''
-        if parent1relationship[index] == 'Mother':
-            parent1relationshipString = 'mother'
-        elif parent1relationship[index] == 'Father':
-            parent1relationshipString = 'father'
-        else:
-            parent1relationshipString == 'guardian'
-        if parent2relationship[index] == 'n/a':
-            parent2String = ''
+
+        parent1relationshipString = getParentRelationship(index, 1)
         
-        ##
+        if parent2relationship[index] != 'n/a':
+            parent2relationshipString = getParentRelationship(index, 2)
+            if parent1relationshipString == parent2relationshipString:
+                parent2String = f'{pronouns[1]} other {parent2relationshipString}\'s name is {parent2names[index]}, their phone number is {parent2phone[index]} and their email is {parent2email[index]}.'
+            else:
+                parent2String = f'{pronouns[1]} {parent2relationshipString}\'s name is {parent2names[index]}, their phone number is {parent2phone[index]} and their email is {parent2email[index]}.'
+        else:
+            parent2String = ''
+
+        
         parentString = f'{pronouns[1]} {parent1relationshipString}\'s name is {parent1names[index]}, their phone number is {parent1phone[index]} and their email is {parent1email[index]}.'
-        messagebox.showinfo(f'{names[index]} Info', f'{weekString} {infoString}\n{parentString}')
+        messagebox.showinfo(f'{names[index]} Info', f'{weekString} {infoString}\n{parentString}\n{parent2String}')
+
+def getParentRelationship(index, parent):
+    if parent == 1:
+        relationshipList = parent1relationship
+    else:
+        relationshipList = parent2relationship
+    if relationshipList[index] == 'Mother':
+        return 'mother'
+    elif relationshipList[index] == 'Father':
+        return 'father'
+    else:
+        return 'guardian'
+
 
 def getBirthdayString(index):
     birthdays[index]
@@ -271,10 +285,11 @@ def deleteChild():
 
     try:
         tupleIndex = nameBox.curselection()
+        index = tupleIndex[0]
     except:
         messagebox.showerror('Error', 'Please select a camper name in the list box')
     else:
-        index = tupleIndex[0]
+        
 
         childName = names[index]
 
@@ -406,17 +421,20 @@ weekCheck9 = Checkbutton(weekFrame, text = 'Week 9', variable = weekVar9, onvalu
 
 
 nameListVar = StringVar(value = names)
-nameBox = Listbox(listBoxFrame, height = 3, listvariable = nameListVar)
+nameBox = Listbox(listBoxFrame, height = 6, listvariable = nameListVar)
 nameBox.bind('<Double-Button-1>', showChildInfo)
+nameScroller = Scrollbar(listBoxFrame, orient = VERTICAL, command = nameBox.yview)
+nameBox.config(yscrollcommand=nameScroller.set)
+
+weekBox = Listbox(listBoxFrame, height = 6)
+weekBox.bind('<Double-Button-1>', showChildren)
+for item in weeks:
+    weekBox.insert(END, item)
+weekScroller = Scrollbar(listBoxFrame, orient = VERTICAL, command = weekBox.yview)
+weekBox.config(yscrollcommand=weekScroller.set)
 
 viewButton = Button(listBoxFrame, text = 'View camper', command = showChildInfo)
 deleteButton = Button(listBoxFrame, text = 'Delete camper', command = deleteChild)
-
-
-weekBox = Listbox(listBoxFrame, height = 3)
-for item in weeks:
-    weekBox.insert(END, item)
-weekBox.bind('<Double-Button-1>', showChildren)
 
 registerButton = Button(registerFrame, text = 'Register', command = formCheck)
 
@@ -431,8 +449,6 @@ registerFrame.grid(row = 4, column = 2, padx = 10, pady = 10, sticky = W+E)
 listBoxFrame.grid(row = 4, column = 1, padx = 10, pady = 10, sticky = W+E)
 
 
-#campLogoLabel.grid(row = 1, column = 1)
-#ontarioLogoLabel.grid(row = 1, column = 3)
 titleLabel.grid(row = 2, column = 1, columnspan = 3, pady = 20)
 descriptionLabel.grid(row = 3, column = 1, columnspan = 3)
 noteLabel.grid(row = 4, column = 1, columnspan = 3)
@@ -493,12 +509,15 @@ weekCheck8.grid(row = 3, column = 2, padx = 30, pady = 10)
 weekCheck9.grid(row = 4, column = 2, padx = 30, pady = 10)
 
 
-nameBox.grid(row = 1, column = 1)
-weekBox.grid(row = 2, column = 1)
+nameBox.grid(row = 1, column = 3)
+nameScroller.grid(row = 1, column = 4, sticky = N+S)
+weekBox.grid(row = 1, column = 1)
+weekScroller.grid(row = 1, column = 2, sticky = N+S)
 
-viewButton.grid(row = 1, column = 2, rowspan = 2)
-deleteButton.grid(row = 1, column = 3, rowspan = 2)
 
-registerButton.grid(ipadx = 66, ipady = 7)
+viewButton.grid(row = 1, column = 5, rowspan = 2, padx = 30, ipady = 2, ipadx = 4)
+deleteButton.grid(row = 1, column = 6, rowspan = 2, ipady = 2, ipadx = 4)
+
+registerButton.pack(ipadx = 66, ipady = 7)
 
 root.mainloop
