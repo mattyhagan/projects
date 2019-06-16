@@ -131,7 +131,7 @@ def register():
     else:
         gender = genderVar.get()
     genders.append(gender)
-    info.append(additionalInfoEntry.get("1.0", 'end-1c'))
+    info.append(additionalInfoEntry.get('1.0', 'end-1c'))
     parent1names.append(parentNameVar.get())
     parent1phone.append(phoneVar.get())
     parent1email.append(emailVar.get())
@@ -227,10 +227,10 @@ def showChildInfo(*event):
             else:
                 weekString += f'{week}, '
         if info[index] != '':
-            infoString = f'Additional info for {pronouns[0]} is:\n{info[index]}.\n{pronouns[1]} date of birth is {getBirthdayString(index)}'
+            infoString = f'Additional info for {pronouns[0]} is:\n{info[index]}'
         else:
             infoString = ''
-
+        birthdayString = f'{pronouns[1]} date of birth is {getBirthdayString(index)}'
         parent1relationshipString = getParentRelationship(index, 1)
         
         if parent2relationship[index] != 'n/a':
@@ -243,7 +243,7 @@ def showChildInfo(*event):
             parent2String = ''
 
         parentString = f'{pronouns[1]} {parent1relationshipString}\'s name is {parent1names[index]}, their phone number is {parent1phone[index]} and their email is {parent1email[index]}.'
-        messagebox.showinfo(f'{names[index]} Info', f'{weekString} {infoString}\n{parentString}\n{parent2String}')
+        messagebox.showinfo(f'{names[index]} Info', f'{weekString} {infoString}\n{birthdayString}\n{parentString}\n{parent2String}')
 
 def getParentRelationship(index, parent):
     if parent == 1:
