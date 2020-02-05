@@ -1,0 +1,52 @@
+###Excercise 1
+##
+##w = int(input("Enter w variable"))
+##x = int(input("Enter x variable"))
+##y = int(input("Enter y variable"))
+##z = int(input("Enter z variable"))
+##
+##while not (w<x<y<z):
+##    if w>x:
+##        w, x = x, w
+##    if x>y:
+##        x, y = y, x
+##    if y>z:
+##        x, y = y, x
+##    if z<x:
+##        z, x = x, z
+##
+##    print (w, x, y, z)
+##
+##print(f" The order from lowest to highest is {w}, {x}, {y}, {z}")
+
+
+###Exercise 2
+##n = int(input("Enter n value: "))
+##
+##
+##p = 1
+##c = 2
+##
+##while not c <= n < c*2:
+##    p+=1
+##    c*=2
+##
+##print(f"2^{p} <= {n} < 2^{p+1}")
+
+###Exercise 3
+##for v in range(0, 41, 5):
+##    for t in range(-10, 41, 5):
+##        print(f"{13.12 + 0.6215*t - 11.37*(v**0.16) + 0.3965*t*(v**0.16):.2f}")
+
+
+###Exercise 11
+##n = 20
+##
+##while n != 1:
+##    if n % 2 == 1:
+##        n = n*3 + 1
+##    else:
+##        n = n/2
+##    print(n)
+
+
